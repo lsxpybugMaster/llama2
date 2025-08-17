@@ -156,10 +156,10 @@ class SelfAttention(nn.Module):
 
         # 准备进行计算
         # (B, 1, H_q, head_dim) -> (B, H_q, 1, head_dim)
-        xq = xq.reshape(1,2)
+        xq = xq.transpose(1,2)
         # (B, Seq_len_now , H_q, head_dim) -> (B, H_q, Seq_len_now, head_dim)
-        keys = keys.reshape(1,2)
-        values = values.reshape(1,2)
+        keys = keys.transpose(1,2)
+        values = values.transpose(1,2)
 
         # (B, H_q, 1, head_dim) @ (B, H_q, head_dim, Seq_len_now) = (B, H_q, 1, Seq_len_now)
         scores = torch.matmul(xq,keys.transpose(2,3)) / math.sqrt(self.head_dim)
